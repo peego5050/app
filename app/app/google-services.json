@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "835661327721",
+    "firebase_url": "https://foodbla-aeb65.firebaseio.com",
+    "project_id": "foodbla-aeb65",
+    "storage_bucket": "foodbla-aeb65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835661327721:android:c114b5306091950c",
+        "android_client_info": {
+          "package_name": "com.jk.foodbla"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835661327721-vinh058u294drv9ambfm5gp1vusc0pog.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jk.foodbla",
+            "certificate_hash": "7a8945a7d3260ec32573911c330935f51f9eb4f8"
+          }
+        },
+        {
+          "client_id": "835661327721-05p2r3hgcca8ai5gdhuj5hp6pgtdjlkp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Ar0L2DW7lCoWzBlM0XckLLFr2rFfyrY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835661327721-05p2r3hgcca8ai5gdhuj5hp6pgtdjlkp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
