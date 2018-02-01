@@ -24,6 +24,7 @@ import java.util.List;
 public class CartViewActivity extends AppCompatActivity {
 
     Context c;
+    String orderId = "0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class CartViewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final Order o = dataSnapshot.getValue(Order.class);
+                orderId = o.orderId;
                 Log.d("Cart", "Loaded order: " + o.toString());
 
                 // Create arrayAdapter linked to the arrayList of ordered items
@@ -85,6 +87,7 @@ public class CartViewActivity extends AppCompatActivity {
     public void confirmOrder(View v){
         // Open activity
         Intent i = new Intent(this, ConfirmActivity.class);
+        i.putExtra("ORDER_ID", orderId);
         startActivity(i);
     }
 

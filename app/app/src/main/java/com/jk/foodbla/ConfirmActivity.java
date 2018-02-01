@@ -1,7 +1,14 @@
 package com.jk.foodbla;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Switch;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -9,8 +16,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ConfirmActivity extends AppCompatActivity implements OnMapReadyCallback{
+
+    DatabaseReference orderReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +36,9 @@ public class ConfirmActivity extends AppCompatActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapConfirm);
         mapFragment.getMapAsync(this);
+
+        orderReference = getDatabaseReference(getIntent());
+        displayOrder();
 
 
     }
@@ -43,6 +60,54 @@ public class ConfirmActivity extends AppCompatActivity implements OnMapReadyCall
         googleMap.addMarker(new MarkerOptions().position(sydney)
                 .title("Marker in Sydney"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    public void toggleDeadline(View v){
+        Switch s = (Switch)findViewById(R.id.switchDeadline);
+        if(s.isChecked()){
+            // Button checked, show deadline
+            Log.d("Confirm", "deadline selected");
+        }
+        else{
+            // Button unselected, hide deadline
+            Log.d("Confirm", "deadline unselected");
+        }
+    }
+
+    public DatabaseReference getDatabaseReference(Intent i){
+        // Get the order id
+        String orderId = i.getStringExtra("ORDER_ID");
+        Log.d("Confirm", "Order id: " + orderId);
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference ref = db.getReference("user2");
+
+        return ref.child("orders").child(orderId);
+    }
+
+    public void displayOrder(){
+
+        orderReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Order o = dataSnapshot.getValue(Order.class);
+                Log.d("Confirm", "Loaded order: " + o.toString());
+
+                // Populate listview
+                ListView lv = (ListView)findViewById(R.id.listViewConfirm);
+
+                ArrayAdapter<Item> a = new ArrayAdapter<Item>(getApplication(), android.R.layout.simple_list_item_1, o.itemsOrdered);
+                lv.setAdapter(a);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        // Display items with the help of an adapter
     }
 
 }
