@@ -29,7 +29,25 @@ public class Order {
     public void removeItem(int index){
         itemsOrdered.remove(index);
     }
-    List<Item> itemsOrdered = new ArrayList<Item>();
-    String orderId;
+
+    public void setItemsOrdered(List<Item> itemsOrdered){
+        this.itemsOrdered = itemsOrdered;
+    }
+
+    public void setOrderId(String orderId){
+        this.orderId = orderId;
+    }
+
+    public List<Item> itemsOrdered = new ArrayList<Item>();
+    public String orderId;
+
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append("Order id: " + orderId + ", Items: ");
+        for(Item i: itemsOrdered){
+            s.append(i.toString() + ", ");
+        }
+        return s.toString();
+    }
 
 }

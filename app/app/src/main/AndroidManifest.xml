@@ -9,6 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!--
+             The API key for Google Maps-based APIs.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC2OigSSImAr1A1PpPZr54R0L2_Qz7Tvno" />
+
         <activity android:name=".Firebase">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +39,9 @@
         <activity
             android:name=".CartViewActivity"
             android:label="@string/title_activity_cart_view"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".DetailItemActivity" />
+        <activity android:name=".ConfirmActivity"></activity>
     </application>
 
 </manifest>

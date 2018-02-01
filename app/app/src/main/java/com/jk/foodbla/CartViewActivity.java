@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class CartViewActivity extends AppCompatActivity {
 
@@ -43,17 +46,18 @@ public class CartViewActivity extends AppCompatActivity {
         final String ORDER_ID = intent.getStringExtra("ORDER_ID");
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference ref = db.getReference().child("orders").child(ORDER_ID);
+        final DatabaseReference ref = db.getReference().child("user2").child("orders").child(ORDER_ID);
 
 
+        // Mainly used to load the object, since the onDataChange() method is called automatically once
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Order o = dataSnapshot.getValue(Order.class);
+                final Order o = dataSnapshot.getValue(Order.class);
+                Log.d("Cart", "Loaded order: " + o.toString());
 
-                Item[] itemsArray = new Item[o.itemsOrdered.size()];
-                o.itemsOrdered.toArray(itemsArray);
-                ArrayAdapter<Item> itemsAdapter = new ArrayAdapter<Item>(c, android.R.layout.simple_list_item_1, itemsArray);
+                // Create arrayAdapter linked to the arrayList of ordered items
+                final ArrayAdapter<Item> itemsAdapter = new ArrayAdapter<Item>(c, android.R.layout.simple_list_item_1, o.itemsOrdered);
 
                 // Load the listview from the layout and display the data by setting the adapter of the list view
                 ListView itemsView = (ListView)findViewById(R.id.listViewCart);
@@ -62,12 +66,10 @@ public class CartViewActivity extends AppCompatActivity {
                 itemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // Record item selected
-                        /*
-                        o.addItem(new Item("Item " + position, "0.00"));
-                        ref.child("orders").child(orderKey).setValue(o);
-                        */
-
+                        // Remove selected item from list
+                        itemsAdapter.remove(itemsAdapter.getItem(position));
+                        Log.d("Cart", "Removed item at position: " + position);
+                        ref.setValue(o);
 
                     }
                 });
@@ -78,6 +80,12 @@ public class CartViewActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void confirmOrder(View v){
+        // Open activity
+        Intent i = new Intent(this, ConfirmActivity.class);
+        startActivity(i);
     }
 
 }

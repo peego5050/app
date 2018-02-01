@@ -5,11 +5,19 @@ package com.jk.foodbla;
  */
 
 public class Item {
-    String name;
-    String price;
+    public String name;
+    public String price;
 
     public Item(){
 
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setPrice(String price){
+        this.price = price;
     }
 
     public String toString(){

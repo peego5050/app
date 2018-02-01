@@ -6,20 +6,29 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class OrderNoTabActivity extends AppCompatActivity {
 
     FirebaseDatabase db;
     DatabaseReference ref;
-    String orderKey;
-    Order o;
+    public String orderKey;
+    public Order o;
+    public int currentSelection = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +39,60 @@ public class OrderNoTabActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance();
         int ORDER_ID = 1;
-        String userId = "12345";
+        String userId = "user2";
         ref = db.getReference().child(userId);
         orderKey = ref.child("orders").push().getKey();
         o = new Order(orderKey);
-        ref.child(orderKey).setValue(o);
+        ref.child("orders").child(orderKey).setValue(o);
+        DatabaseReference orderRef = ref.child("orders").child(orderKey);
+        orderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Data changed, update object
+                Order changedOrder = dataSnapshot.getValue(Order.class);
+                Log.d("Order", "Order changed: " + changedOrder.toString());
+
+                o = changedOrder;
+
+                // Update Cart button
+                Button cartButton = (Button)findViewById(R.id.buttonShowCart);
+                cartButton.setText("Cart (" + o.itemsOrdered.size() + ")");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Order addedOrder = dataSnapshot.getValue(Order.class);
+                Log.d("Order", "Added: " + addedOrder.toString());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Order changedOrder = dataSnapshot.getValue(Order.class);
+                Log.d("Order", "Added: " + changedOrder.toString());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,6 +107,8 @@ public class OrderNoTabActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void showCart(View v){
         // Open Activity to display the contents of the cart. For this, pass the reference?
         Intent i = new Intent(this, CartViewActivity.class);
@@ -58,9 +118,50 @@ public class OrderNoTabActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+
+        // Update Cart button
+        Log.d("Order", "onResume");
+        Button cartButton = (Button)findViewById(R.id.buttonShowCart);
+        cartButton.setText("Cart (" + o.itemsOrdered.size() + ")");
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        final String[] itemsArray = new String[]{"Pizza", "Pasta", "Drinks", "Dessert", "Specials"};
+        final String[] prices = new String[]{"5.50", "6.00", "3.00", "2.50", "2.00"};
+
+        Log.d("Order", "Activity returned");
+
+        ArrayList<Item> items = new ArrayList<Item>();
+        items.add(new Item("Item 1", "4.75"));
+        items.add(new Item("Item 2", "5.25"));
+
+        // Get id of item
+        int position = data.getIntExtra("position", 0);
+
+        // Record item selected
+        Log.d("Order", "Adding Item " + position);
+        o.addItem(new Item(itemsArray[currentSelection] + ": " + items.get(position).name, items.get(position).price));
+        ref.child("orders").child(orderKey).setValue(o);
+
+        // Update Cart button
+        Button cartButton = (Button)findViewById(R.id.buttonShowCart);
+        cartButton.setText("Cart (" + o.itemsOrdered.size() + ")");
+
+
+    }
+
+
     public void populateListView(){
         // Example items
-        String[] items = new String[]{"Pizza", "Pasta", "Drinks", "Dessert", "Specials"};
+        final String[] items = new String[]{"Pizza", "Pasta", "Drinks", "Dessert", "Specials"};
+        final String[] prices = new String[]{"5.50", "6.00", "3.00", "2.50", "2.00"};
         // Add items to an array adapter
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 
@@ -71,12 +172,15 @@ public class OrderNoTabActivity extends AppCompatActivity {
         itemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Record item selected
-                o.addItem(new Item("Item " + position, "0.00"));
-                ref.child("orders").child(orderKey).setValue(o);
+                currentSelection = position;
+                // Open dialog for detailed selection
+                Intent i = new Intent(getApplicationContext(), DetailItemActivity.class);
+                startActivityForResult(i, 0);
 
 
             }
+
+
         });
 
 

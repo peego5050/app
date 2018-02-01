@@ -16,9 +16,18 @@
         <ListView
             android:id="@+id/listViewCart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp">
+
+        </ListView>
+
+        <Button
+            android:id="@+id/buttonConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="confirmOrder"
+            android:text="Confirm" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
