@@ -96,15 +96,32 @@ public class Firebase extends AppCompatActivity {
         
     }
 
+
+    public void openInfoActivity(){
+        // Create Intent to open new activity
+        Intent activityIntent = new Intent(this, InfoActivity.class);
+
+
+
+        startActivity(activityIntent);
+
+    }
+
+    public void openSettingsActivity(){
+        // Create Intent to open new activity
+        Intent activityIntent = new Intent(this, settingsActivity.class);
+
+
+
+        startActivity(activityIntent);
+
+    }
+
     public void orderButtonPressed(View v){
         openOrderActivity();
     }
 
-    public void settingsButtonPressed(View v){
+    public void settingsButtonPressed(View v){ openSettingsActivity(); }
 
-    }
-
-    public void infoButtonPressed(View v){
-
-    }
+    public void infoButtonPressed(View v){ openInfoActivity();}
 }

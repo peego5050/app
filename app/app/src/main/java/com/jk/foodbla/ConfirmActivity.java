@@ -54,12 +54,13 @@ public class ConfirmActivity extends AppCompatActivity implements OnMapReadyCall
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // Add a marker in Sydney, Australia,
+        // Add a marker in Zürich,
         // and move the map's camera to the same location.
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // set zoom to 18 (closest 21, farthest: 1)
+        LatLng zurich = new LatLng(47.361268, 8.525749);
+        googleMap.addMarker(new MarkerOptions().position(zurich)
+                .title("Marker in Zurich"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zurich, 18));
     }
 
     public void toggleDeadline(View v){
