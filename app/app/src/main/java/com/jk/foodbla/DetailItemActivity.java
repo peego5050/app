@@ -18,8 +18,10 @@ public class DetailItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_item);
 
         ArrayList<Item> items = new ArrayList<Item>();
-        items.add(new Item("Item 1", "4.75"));
-        items.add(new Item("Item 2", "5.25"));
+        items.add(new Item("Bier      ", "     1.10 CHF"));
+        items.add(new Item("Merlot 7dl", "    12.95 CHF"));
+
+
         ArrayAdapter<Item> a = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, items);
 
         ListView l = (ListView)findViewById(R.id.listViewDetail);

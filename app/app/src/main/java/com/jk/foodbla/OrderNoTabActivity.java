@@ -133,14 +133,19 @@ public class OrderNoTabActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        final String[] itemsArray = new String[]{"Pizza", "Pasta", "Drinks", "Dessert", "Specials"};
+        final String[] itemsArray = new String[]{"fruits & vegetables", "pasta&rice", "drinks", "household", "specials"};
         final String[] prices = new String[]{"5.50", "6.00", "3.00", "2.50", "2.00"};
+
+
 
         Log.d("Order", "Activity returned");
 
+        //hier wenn möglich nur items der gewählten kategorie
+        //wenn möglich items (name, preis, bildlink, gewicht, etc.) direkt aus firebase beziehen, image-resource via bildlink aus firebase storage)
+        //
         ArrayList<Item> items = new ArrayList<Item>();
-        items.add(new Item("Item 1", "4.75"));
-        items.add(new Item("Item 2", "5.25"));
+        items.add(new Item("De Cecco", "2.60"));
+        items.add(new Item("M-Budget", "1.75"));
 
         // Get id of item
         int position = data.getIntExtra("position", 0);
@@ -160,8 +165,8 @@ public class OrderNoTabActivity extends AppCompatActivity {
 
     public void populateListView(){
         // Example items
-        final String[] items = new String[]{"Pizza", "Pasta", "Drinks", "Dessert", "Specials"};
-        final String[] prices = new String[]{"5.50", "6.00", "3.00", "2.50", "2.00"};
+        final String[] items = new String[]{"fruits & vegetables", "pasta&rice", "drinks", "household", "specials"};
+        final String[] prices = new String[]{"5.50", "6.00", "0.00", "2.50", "2.00"};
         // Add items to an array adapter
         ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
 

@@ -1,5 +1,6 @@
 package com.jk.foodbla;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,6 +70,13 @@ public class ConfirmActivity extends AppCompatActivity implements OnMapReadyCall
         if(s.isChecked()){
             // Button checked, show deadline
             Log.d("Confirm", "deadline selected");
+
+            Context context = getApplicationContext();
+            CharSequence text = "deadline activated";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
         else{
             // Button unselected, hide deadline
@@ -106,6 +115,8 @@ public class ConfirmActivity extends AppCompatActivity implements OnMapReadyCall
 
             }
         });
+
+
 
 
         // Display items with the help of an adapter

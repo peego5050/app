@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +65,8 @@ public class CartViewActivity extends AppCompatActivity {
                 // Load the listview from the layout and display the data by setting the adapter of the list view
                 ListView itemsView = (ListView)findViewById(R.id.listViewCart);
                 itemsView.setAdapter(itemsAdapter);
+
+
 
                 itemsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

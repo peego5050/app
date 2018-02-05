@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Delivery Time: 15 min" />
+            android:text="Transportation price = 3.50 + 2.00 CHF"
+            android:textColor="@android:color/holo_green_dark"/>
 
         <Switch
             android:id="@+id/switchDeadline"
@@ -41,7 +43,12 @@
             android:id="@+id/listViewConfirm"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:background="@color/colorPrimaryDark">
+
+
+            //auf meinem smartphone ist die schrift kaum erkennbar d.h. fast weiss, sollte aber gem. code schwarz sein. (?) werde dem sonst noch nachgehen, ist es bei dir korrekt? auf emulator ok
 
         </ListView>
 
@@ -58,7 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total Price: 0.00" />
+                android:text="Total Price: 23.50 CHF"
+                android:textColor="@android:color/black" />
 
             <Button
                 android:id="@+id/button2"
