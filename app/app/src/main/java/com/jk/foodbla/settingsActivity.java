@@ -14,6 +14,7 @@ public class settingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        //ds
 
         //fullscreen modus 'sticky immersion'
         View decorView = getWindow().getDecorView();
